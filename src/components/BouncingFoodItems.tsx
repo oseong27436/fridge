@@ -29,7 +29,7 @@ export default function BouncingFoodItems({ items, onSelect }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const stateRef = useRef<{ x: number; y: number; dx: number; dy: number }[]>([])
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | undefined>(undefined)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   useEffect(() => {
