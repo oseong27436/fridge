@@ -15,18 +15,22 @@
 ## 기능 스펙
 - 냉장칸 / 냉동칸 구분된 냉장고 UI
 - 등록된 음식 이미지를 DB 데이터에 맞게 시각적으로 배치
-- + 버튼 → 음식 목록 팝업 → 선택하면 냉장고에 추가
+- + 버튼 → 팝업 (기존 food_items 목록 + "새 음식 등록" 버튼)
+  - 기존 음식 선택 → fridge_contents 수량 +1 (없으면 INSERT, 있으면 UPDATE)
+  - 새 음식 등록 → 이름 + 보관타입 + PNG 업로드(Supabase Storage) → food_items INSERT → fridge_contents INSERT
 - 음식 클릭 → 수량 조절 or 제거
 - 음식 마스터 데이터 (이름, 이미지, 냉장/냉동 여부) 사전 등록
 
 ## 디자인 방향
-- AI 느낌 X (보라/파랑 그라데이션, 카드 UI 지양)
-- 레트로 팝아트 / 플랫 일러스트 무드
-- 굵은 압축 폰트, 플랫 컬러, 만화적 느낌
+- 실제 냉장고 내부 사진을 배경으로 사용
+- 선반 위치에 맞게 음식 이미지를 absolute로 오버레이
+- 냉장고 이미지: be28ba70347f2d8c889889ade107705d.jpg (Supabase Storage 업로드 예정)
 
-## DB 구조 (예정)
-- `food_items` - 음식 마스터 (id, name, image_url, storage_type: fridge|freezer)
-- `fridge_contents` - 현재 냉장고 상태 (food_item_id, quantity, added_at)
+## DB 구조
+- `food_items` - 음식 마스터 (id, name, description, image_url, storage_type: fridge|freezer|room_temp, created_at)
+- `fridge_contents` - 현재 냉장고 상태 (id, food_item_id, quantity, added_at, updated_at)
+  - quantity는 개수(integer), description에 "1개 = 60g" 같은 단위 메모
+  - fridge_contents는 현재 상태만 관리 (이력 X), 먹으면 UPDATE
 
 ## 향후 계획
 - 포털(Oseong Hub)에 통합 예정
